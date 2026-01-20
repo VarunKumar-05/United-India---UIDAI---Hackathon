@@ -172,7 +172,8 @@ Contributions are welcome! Please follow these steps:
 ## 👥 Team
 
 - **Varun Kumar** - [@VarunKumar-05](https://github.com/VarunKumar-05)
-
+- **Thomas Albert** -[@iwinalbert](https://github.com/iwinalbert)
+- **Rishi Lakshan** 
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
