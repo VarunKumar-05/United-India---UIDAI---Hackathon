@@ -1,73 +1,81 @@
-# React + TypeScript + Vite
+**UIDAI Velocity Dashboard (Frontend)**
+=======================================
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The **UIDAI Velocity Dashboard** is a high-performance, financial-grade visualization platform designed to monitor the "pulse" of the Aadhaar ecosystem. Built using **React 19** and **TypeScript**, it renders millions of data points with 60fps fluidity using hardware-accelerated charting libraries.
 
-Currently, two official plugins are available:
+**⚡ Tech Stack**
+----------------
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+*   **Core:** React 19, TypeScript, Vite
+    
+*   **Visualization:** lightweight-charts (TradingView Engine)
+    
+*   **State Management:** zustand
+    
+*   **Styling:** Tailwind CSS
+    
+*   **AI Integration:** Google Gemini 2.0 Flash (via REST API)
+    
+*   **Icons:** Lucide React
+    
 
-## React Compiler
+**🚀 Getting Started**
+----------------------
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### **1\. Installation**
 
-## Expanding the ESLint configuration
+Install the dependencies using npm:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+npm install
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### **2\. Configuration (AI Features)**
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+To enable the "AI Analyst" sidebar features, you need a Google Gemini API Key.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1.  Open src/services/geminiService.ts.
+    
+2.  Insert your key in the const API\_KEY = "..." variable.
+    
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+*   _(Note: In a production build, this would use .env variables)._
+    
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### **3\. Running the Dev Server**
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Start the local development server:
+
+npm run dev
+
+The application will launch at http://localhost:5173.
+
+**📂 Architecture & Folder Structure**
+--------------------------------------
+
+We organize the frontend by Feature Domain rather than just technical role.
+
+src/├── components/│   ├── Chart/            # The core TradingView wrapper & Chart logic│   ├── Indicators/       # UI controls for specific indicators (Velocity, etc.)│   ├── Docs/             # Integrated documentation viewer│   └── Layout/           # Main application shell (Sidebar, Header)├── data/                 # Static JSON datasets (processed by scripts/)├── services/│   ├── geminiService.ts  # Interface to Google Gemini 2.0 for market reports│   └── newsService.ts    # Fetches context-aware news for spikes├── store/                # Global state (Zustand) for active district/chart mode└── utils/                # THE BRAIN: Mathematical & ML Logic    ├── velocityMath.ts   # Calculus logic (Derivative calculation)    ├── indicatorEngine.ts # Indicator calculation pipeline    └── lorentzianClassifier.ts # KNN Machine Learning implementation
+
+**🧠 Key Modules Explained**
+----------------------------
+
+### **1\. The Chart Engine (components/Chart)**
+
+We wrap the lightweight-charts library to create a custom "Candlestick" view of administrative data. Unlike standard administrative dashboards (bar charts), this allows technical analysis (Trendlines, Support/Resistance) on Identity Data.
+
+### **2\. The Math "Brain" (utils/)**
+
+*   **velocityMath.ts:** Calculates the first derivative of enrolment updates.
+    
+*   **lorentzianClassifier.ts:** Implements a K-Nearest Neighbors algorithm using Lorentzian Distance (simpler and more robust than Euclidean distance) to predict if enrolment velocity will accelerate or decelerate based on 4D historical patterns.
+    
+
+### **3\. AI Analyst (services/geminiService.ts)**
+
+We capture the current chart state (Zoom level, visible indicators, selected district) and send a compressed prompt to Gemini 2.0 Flash. The AI returns a "Market Report" explaining the administrative movements as if they were financial assets.
+
+**🧪 Scripts**
+--------------
+
+*   npm run build: Compiles TypeScript and builds for production.
+    
+*   npm run lint: Runs ESLint to ensure code quality.
